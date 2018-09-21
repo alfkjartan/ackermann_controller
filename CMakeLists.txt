@@ -141,6 +141,7 @@ include_directories(
 add_executable(find_road_node src/find_road.cpp)
 add_executable(move_car_node src/move_car.cpp)
 add_executable(echo_wheel_angle_node src/echo_wheel_angles.cpp)
+add_executable(stay_on_road_node src/stay_on_road_test.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -153,6 +154,7 @@ add_executable(echo_wheel_angle_node src/echo_wheel_angles.cpp)
 add_dependencies(find_road_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(move_car_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(echo_wheel_angle_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(stay_on_road_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
  target_link_libraries(find_road_node
@@ -164,6 +166,10 @@ add_dependencies(echo_wheel_angle_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${cat
     ${OpenCV_LIBRARIES}
  )
  target_link_libraries(echo_wheel_angle_node
+   ${catkin_LIBRARIES}
+   ${OpenCV_LIBRARIES}
+)
+ target_link_libraries(stay_on_road_node
    ${catkin_LIBRARIES}
    ${OpenCV_LIBRARIES}
 )

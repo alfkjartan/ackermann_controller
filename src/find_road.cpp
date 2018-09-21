@@ -8,7 +8,7 @@
 
 static const std::string OPENCV_WINDOW = "Image window";
 
-class ImageConverter
+class RoadFinder
 {
   ros::NodeHandle nh_;
   image_transport::ImageTransport it_;
@@ -17,18 +17,18 @@ class ImageConverter
   cv::Mat thr, gray;
   
 public:
-  ImageConverter()
+  RoadFinder()
     : it_(nh_)
   {
     // Subscrive to input video feed and publish output video feed
     image_sub_ = it_.subscribe("/ackermann_vehicle/camera1/image_raw", 1,
-      &ImageConverter::imageCb, this);
-    image_pub_ = it_.advertise("/image_converter/output_video", 1);
+      &RoadFinder::imageCb, this);
+    image_pub_ = it_.advertise("/road_finder/output_video", 1);
 
     cv::namedWindow(OPENCV_WINDOW);
   }
 
-  ~ImageConverter()
+  ~RoadFinder()
   {
     cv::destroyWindow(OPENCV_WINDOW);
   }
@@ -77,7 +77,7 @@ public:
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "find_road");
-  ImageConverter ic;
+  RoadFinder rf;
   ros::spin();
   return 0;
 }
