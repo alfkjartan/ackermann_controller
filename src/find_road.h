@@ -9,11 +9,11 @@
 #include "opencv2/opencv.hpp"
 
 static const std::string OPENCV_WINDOW = "Image window";
-cv::Point2f middle_of_road;
 
 
 class RoadFinder
 {
+  cv::Point2f middle_of_road_;
   ros::NodeHandle nh_;
   image_transport::ImageTransport it_;
   image_transport::Subscriber image_sub_;
@@ -40,6 +40,10 @@ public:
   int width(){
     return thr.cols;
   }
+
+  cv::Point2f& get_midpoint() {
+    return middle_of_road_;
+  }
   
   void imageCb(const sensor_msgs::ImageConstPtr& msg)
   {
@@ -64,14 +68,15 @@ public:
  
     // find moments of the image
     cv::Moments m = cv::moments(thr,true);
-    cv::Point p(m.m10/m.m00, m.m01/m.m00);
- 
+    middle_of_road_.x = m.m10/m.m00;
+    middle_of_road_.y =  m.m01/m.m00;
+    
     // coordinates of centroid
     //cout<< Mat(p)<< endl;
  
     // show the image with a point mark at the centroid
     if (cv_ptr->image.rows > 60 && cv_ptr->image.cols > 60)
-      cv::circle(cv_ptr->image, p, 10, CV_RGB(255,0,0));
+      cv::circle(cv_ptr->image, middle_of_road_, 10, CV_RGB(255,0,0));
 
     // Update GUI Window
     cv::imshow(OPENCV_WINDOW, cv_ptr->image);
