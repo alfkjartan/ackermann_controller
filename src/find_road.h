@@ -159,13 +159,13 @@ class RoadFinder
     int midcol = imageWidth()/2;
     cv::line( cv_ptr->image, cv::Point(midcol, imageHeight()),
 	      cv::Point(midcol, imageHeight()-free_road),
-	      cv::Scalar(0, 200, 0), 3, cv::LINE_AA );
+	      cv::Scalar(0, 200, 0), 2, cv::LINE_AA );
     
     for( int i = 0; i < lines_.size(); i++ )
     {
       cv::Vec4i l = lines_[i];
       cv::line( cv_ptr->image, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
-		cv::Scalar(120,0,200), 3, cv::LINE_AA);
+		cv::Scalar(120,0,200), 2, cv::LINE_AA);
     }
 
     // Update GUI Window
