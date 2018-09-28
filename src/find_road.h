@@ -147,19 +147,25 @@ class RoadFinder
     cv::Canny(thr, edge, 50, 200, 3 ); // detect edges
     cv::HoughLinesP(edge, lines_, 1, CV_PI/180, 50, 50, 10 ); // detect lines
 
-    // coordinates of centroid
-    //cout<< Mat(p)<< endl;
- 
+    // Find free road ahead
+    int free_road = freeRoadAhead();
+    
     // show the image with a point mark at the centroid, and detected lines
     
     if (cv_ptr->image.rows > 60 && cv_ptr->image.cols > 60)
       cv::circle(cv_ptr->image, middle_of_road_, 10, CV_RGB(255,0,0));
 
-       // Draw the lines
+    // Draw the lines
+    int midcol = imageWidth()/2;
+    cv::line( cv_ptr->image, cv::Point(midcol, imageHeight()),
+	      cv::Point(midcol, imageHeight()-free_road),
+	      cv::Scalar(0, 200, 0), 3, cv::LINE_AA );
+    
     for( int i = 0; i < lines_.size(); i++ )
     {
       cv::Vec4i l = lines_[i];
-      cv::line( cv_ptr->image, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(120,0,200), 3, cv::LINE_AA);
+      cv::line( cv_ptr->image, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
+		cv::Scalar(120,0,200), 3, cv::LINE_AA);
     }
 
     // Update GUI Window
